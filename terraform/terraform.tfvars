@@ -1,6 +1,6 @@
 aws_region = "ap-south-1"
 
-project_name = "fittingframework"
+project_name = "Wanderlust"
 
 environment = "dev"
 

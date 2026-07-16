@@ -1,6 +1,6 @@
-# 🚀 fittingframework Infrastructure
+# 🚀 Wanderlust Infrastructure
 
-Production-ready Infrastructure as Code (IaC) repository for deploying the **fittingframework
+Production-ready Infrastructure as Code (IaC) repository for deploying the **Wanderlust
 ** application on **AWS** using **Terraform**, **Amazon EKS**, **GitHub Actions**, **Helm**, and **ArgoCD**.
 
 This repository provisions and manages the complete cloud infrastructure required to deploy, scale, and maintain the FitInFrame application following modern DevOps and Infrastructure as Code best practices.
@@ -38,7 +38,7 @@ This repository provisions and manages the complete cloud infrastructure require
 # 📂 Repository Structure
 
 ```text
-fittingframework-infrastructure/
+Wanderlust-infrastructure/
 │
 ├── .github/
 │   └── workflows/
@@ -87,7 +87,7 @@ Helm
      │
 ArgoCD
      │
-fittingframework Application
+Wanderlust Application
 ```
 
 ---

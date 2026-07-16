@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: wanderlust-backend
+  namespace: wanderlust
+
+  labels:
+    app: wanderlust-backend
+    tier: backend
+
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  selector:
+    matchLabels:
+      app: wanderlust-backend
+
+  template:
+
+    metadata:
+      labels:
+        app: wanderlust-backend
+        tier: backend
+
+    spec:
+
+      restartPolicy: Always
+
+      containers:
+      - name: wanderlust-backend
+        image: wanderlust-backend:latest
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3

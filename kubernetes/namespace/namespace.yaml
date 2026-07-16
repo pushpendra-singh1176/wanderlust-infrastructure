@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+
+metadata:
+  name: wanderlust
+
+  labels:
+    app.kubernetes.io/name: wanderlust
+    app.kubernetes.io/part-of: wanderlust-platform
+    environment: production
+    managed-by: argocd
