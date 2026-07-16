@@ -29,14 +29,16 @@ spec:
         tier: backend
 
     spec:
-
       restartPolicy: Always
-
       containers:
       - name: wanderlust-backend
         image: wanderlust-backend:latest
         imagePullPolicy: Always
-
+        envFrom:
+        - configMapRef:
+            name: backend-config
+        - secretRef:
+            name: backend-secret
         ports:
         - containerPort: 5000
           protocol: TCP

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: wanderlust-backend-service
+  namespace: wanderlust
+
+  labels:
+    app: wanderlust-backend
+    tier: backend
+
+spec:
+  type: ClusterIP
+
+  selector:
+    app: wanderlust-backend
+
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
