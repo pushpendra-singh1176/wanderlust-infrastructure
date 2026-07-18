@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+
+metadata:
+  name: wanderlust
+  namespace: argocd
+
+spec:
+  description: Wanderlust GitOps Project
+
+  sourceRepos:
+    - "https://github.com/pushpendra-singh1176/wanderlust-infrastructure.git"
+
+  destinations:
+    - namespace: wanderlust
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
