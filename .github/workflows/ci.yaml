@@ -23,20 +23,20 @@ jobs:
 
       - name: Build Backend Image
         run: |
-          docker build -t dev.pushpendra/wanderlust-backend:${{ github.run_number }} ./backend
-          docker tag dev.pushpendra/wanderlust-backend:${{ github.run_number }} dev.pushpendra/wanderlust-backend:latest
+          docker build -t xerox2/wanderlust-backend:${{ github.run_number }} ./backend
+          docker tag xerox2/wanderlust-backend:${{ github.run_number }} xerox2/wanderlust-backend:latest
 
       - name: Build Frontend Image
         run: |
-          docker build -t dev.pushpendra/wanderlust-frontend:${{ github.run_number }} ./frontend
-          docker tag dev.pushpendra/wanderlust-frontend:${{ github.run_number }} dev.pushpendra/wanderlust-frontend:latest
+          docker build -t xerox2/wanderlust-frontend:${{ github.run_number }} ./frontend
+          docker tag xerox2/wanderlust-frontend:${{ github.run_number }} xerox2/wanderlust-frontend:latest
 
       - name: Push Backend Image
         run: |
-          docker push dev.pushpendra/wanderlust-backend:${{ github.run_number }}
-          docker push dev.pushpendra/wanderlust-backend:latest
+          docker push xerox2/wanderlust-backend:${{ github.run_number }}
+          docker push xerox2/wanderlust-backend:latest
 
       - name: Push Frontend Image
         run: |
-          docker push dev.pushpendra/wanderlust-frontend:${{ github.run_number }}
-          docker push dev.pushpendra/wanderlust-frontend:latest
+          docker push xerox2/wanderlust-frontend:${{ github.run_number }}
+          docker push xerox2/wanderlust-frontend:latest
