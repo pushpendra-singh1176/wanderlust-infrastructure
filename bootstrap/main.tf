@@ -39,7 +39,7 @@ resource "aws_s3_bucket_public_access_block" "block" {
 
 resource "aws_dynamodb_table" "terraform_lock" {
 
-  name         = var.dynamodb_table_name
+  name = var.dynamodb_table_name
 
   billing_mode = "PAY_PER_REQUEST"
 

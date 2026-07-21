@@ -2,7 +2,7 @@ terraform {
 
   backend "s3" {
 
-    bucket         = "wanderlust-terraform-state"
+    bucket         = "dev.pushpendra-wanderlust-tfstate"
     key            = "environments/dev/terraform.tfstate"
     region         = "ap-south-1"
 
