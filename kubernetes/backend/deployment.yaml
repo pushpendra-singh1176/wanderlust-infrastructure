@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: wanderlust-backend
+  name: "{{ .Release.Name }}-backend"
   namespace: wanderlust
 
   labels:
@@ -10,7 +10,7 @@ metadata:
     tier: backend
 
 spec:
-  replicas: 2
+  replicas: {{ .Values.backend.replicaCount }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -32,37 +32,37 @@ spec:
       restartPolicy: Always
       containers:
       - name: wanderlust-backend
-        image: xerox2/wanderlust-backend:9
-        imagePullPolicy: Always
+        image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
         envFrom:
         - configMapRef:
-            name: backend-config
+            name: {{ .Values.backend.configMapName }}
         - secretRef:
-            name: backend-secret
+            name: {{ .Values.backend.secretName }}
         ports:
-        - containerPort: 5000
+        - containerPort: {{ .Values.backend.containerPort }}
           protocol: TCP
 
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "250m"
+            memory: {{ .Values.backend.resources.requests.memory }}
+            cpu: {{ .Values.backend.resources.requests.cpu }}
           limits:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: {{ .Values.backend.resources.limits.memory }}
+            cpu: {{ .Values.backend.resources.limits.cpu }}
         livenessProbe:
           httpGet:
-            path: /
-            port: 5000
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
+            path: {{ .Values.backend.livenessProbe.path }}
+            port: {{ .Values.backend.containerPort }}
+          initialDelaySeconds: {{ .Values.backend.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.backend.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.backend.livenessProbe.timeoutSeconds }}
+          failureThreshold: {{ .Values.backend.livenessProbe.failureThreshold }}
         readinessProbe:
           httpGet:
-            path: /
-            port: 5000
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
+            path: {{ .Values.backend.livenessProbe.path }}
+            port: {{ .Values.backend.containerPort }}
+          initialDelaySeconds: {{ .Values.backend.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.backend.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.backend.readinessProbe.timeoutSeconds }}
+          failureThreshold: {{ .Values.backend.readinessProbe.failureThreshold }}

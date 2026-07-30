@@ -1,0 +1,36 @@
+backend:
+  replicaCount: 2
+
+  image:
+    repository: xerox2/wanderlust-backend
+    tag: "9"
+    pullPolicy: Always
+  configMapName: backend-config
+  secretName: backend-secret
+  containerPort: 5000
+
+  livenessProbe:
+    path: /
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readinessProbe:
+    path: /
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+  service:
+    type: ClusterIP
+    port: 5000
+ingress:
+  enabled: true
+
+  className: nginx
+
+  host: wanderlust.local
+
+  path: /
+
+  pathType: Prefix

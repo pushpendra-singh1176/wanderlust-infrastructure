@@ -1,0 +1,11 @@
+apiVersion: v2
+
+name: wanderlust
+
+description: Production Ready Helm Chart for Wanderlust Application
+
+type: application
+
+version: 1.0.0
+
+appVersion: "1.0.0"

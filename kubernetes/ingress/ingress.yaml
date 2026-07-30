@@ -2,17 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 
 metadata:
-  name: wanderlust-ingress
-  namespace: wanderlust
+  name: "{{ .Release.Name }}-ingress"
+  namespace: {{ .Release.Namespace }}
 
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 
 spec:
-  ingressClassName: nginx
+  ingressClassName: {{ .Values.ingress.className }}
 
   rules:
-    - host: wanderlust.local
+    - host: {{ .Values.ingress.host }}
 
       http:
         paths:
@@ -23,7 +23,7 @@ spec:
 
             backend:
               service:
-                name: frontend
+                name: "{{ .Release.Name }}-frontend-service"
                 port:
                   number: 80
 
@@ -33,6 +33,6 @@ spec:
 
             backend:
               service:
-                name: backend
+                name: "{{ .Release.Name }}-backend-service"
                 port:
                   number: 5000
