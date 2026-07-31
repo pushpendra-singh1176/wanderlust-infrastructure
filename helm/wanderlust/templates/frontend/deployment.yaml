@@ -1,16 +1,16 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment  
 
 metadata:
-  name: frontend
-  namespace: wanderlust
+  name: "{{ .Release.Name }}-frontend"
+  namespace: {{ .Release.Namespace }}
 
   labels:
     app: "{{ .Release.Name }}-frontend"
     tier: frontend
 
 spec:
-  replicas: 2
+  replicas: {{ .Values.frontend.replicaCount }}
 
   selector:
     matchLabels:
@@ -33,33 +33,26 @@ spec:
       containers:
         - name: "{{ .Release.Name }}-frontend"
 
-          image: xerox2/wanderlust-frontend:9
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
 
-          imagePullPolicy: Always
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
 
           ports:
             - containerPort: {{ .Values.frontend.containerPort }}
               protocol: TCP
 
           resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-
-            limits:
-              cpu: "300m"
-              memory: "256Mi"
-
+          {{- toYaml .Values.frontend.resources | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /
               port: {{ .Values.frontend.containerPort }}
-            initialDelaySeconds: 20
-            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.frontend.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.frontend.livenessProbe.periodSeconds }}
 
           readinessProbe:
             httpGet:
               path: /
               port: {{ .Values.frontend.containerPort }}
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: {{ .Values.frontend.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.frontend.readinessProbe.periodSeconds }}

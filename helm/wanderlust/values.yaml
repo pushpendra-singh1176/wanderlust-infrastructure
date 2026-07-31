@@ -69,10 +69,28 @@ frontend:
     pullPolicy: Always
 
   containerPort: 80
-
+  
   service:
     type: ClusterIP
     port: 80
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "300m"
+      memory: "256Mi"
+
+  livenessProbe:
+    path: /
+    initialDelaySeconds: 20
+    periodSeconds: 10
+
+  readinessProbe:
+    path: /
+    initialDelaySeconds: 10
+    periodSeconds: 5
 
 mongodb:
   image:
