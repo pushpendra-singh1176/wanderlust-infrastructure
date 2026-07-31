@@ -3,7 +3,7 @@ kind: Deployment
 
 metadata:
   name: "{{ .Release.Name }}-backend"
-  namespace: wanderlust
+  namespace: {{ .Release.Namespace }}
 
   labels:
     app: "{{ .Release.Name }}-backend"
@@ -36,20 +36,15 @@ spec:
         imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
         envFrom:
         - configMapRef:
-            name: "{{ .Release.Name }}-backend-config"
+            name: {{ .Values.backend.configMapName }}
         - secretRef:
-            name: "{{ .Release.Name }}-backend-secret"
+            name: {{ .Values.backend.secretName }}
         ports:
         - containerPort: {{ .Values.backend.containerPort }}
           protocol: TCP
 
         resources:
-          requests:
-            memory: {{ .Values.backend.resources.requests.memory }}
-            cpu: {{ .Values.backend.resources.requests.cpu }}
-          limits:
-            memory: {{ .Values.backend.resources.limits.memory }}
-            cpu: {{ .Values.backend.resources.limits.cpu }}
+        {{- toYaml .Values.backend.resources | nindent 10 }}
         livenessProbe:
           httpGet:
             path: {{ .Values.backend.livenessProbe.path }}
