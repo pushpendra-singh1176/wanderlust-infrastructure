@@ -2,10 +2,28 @@ apiVersion: v2
 
 name: wanderlust
 
-description: Production Ready Helm Chart for Wanderlust Application
+description: Helm chart for deploying the Wanderlust application stack on Kubernetes.
 
 type: application
 
-version: 1.0.0
+version: 0.1.0
 
 appVersion: "1.0.0"
+
+keywords:
+  - wanderlust
+  - devops
+  - kubernetes
+  - helm
+  - nodejs
+
+home: https://github.com/pushpendra-singh1176/wanderlust
+
+sources:
+  - https://github.com/pushpendra-singh1176/wanderlust
+  - https://github.com/pushpendra-singh1176/wanderlust-infrastructure
+
+maintainers:
+  - name: Pushpendra Singh
+
+icon: https://helm.sh/img/helm.svg

@@ -1,3 +1,5 @@
+namespace: wanderlust
+
 backend:
   replicaCount: 2
 
@@ -5,9 +7,23 @@ backend:
     repository: xerox2/wanderlust-backend
     tag: "9"
     pullPolicy: Always
+
+  containerPort: 5000
+
   configMapName: backend-config
   secretName: backend-secret
-  containerPort: 5000
+
+  service:
+    type: ClusterIP
+    port: 5000
+
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
 
   livenessProbe:
     path: /
@@ -15,22 +31,75 @@ backend:
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 3
+
   readinessProbe:
     path: /
     initialDelaySeconds: 10
     periodSeconds: 5
     timeoutSeconds: 3
     failureThreshold: 3
+
+  config:
+    nodeEnv: production
+    port: "5000"
+
+    frontendUrl: http://frontend-service
+
+    mongoHost: mongodb-service
+    mongoPort: "27017"
+
+    redisHost: redis-service
+    redisPort: "6379"
+
+    databaseName: wanderlust
+
+  secret:
+    jwtSecret: change-this-to-a-secure-secret
+    mongodbUri: mongodb://mongodb-service:27017/wanderlust
+    redisUrl: redis://redis-service:6379
+    googleClientId: your-google-client-id
+    googleClientSecret: your-google-client-secret
+
+frontend:
+  replicaCount: 2
+
+  image:
+    repository: xerox2/wanderlust-frontend
+    tag: "9"
+    pullPolicy: Always
+
+  containerPort: 80
+
   service:
     type: ClusterIP
-    port: 5000
+    port: 80
+
+mongodb:
+  image:
+    repository: mongo
+    tag: "6"
+
+  service:
+    port: 27017
+
+redis:
+  image:
+    repository: redis
+    tag: "7"
+
+  service:
+    port: 6379
+
 ingress:
   enabled: true
-
   className: nginx
 
   host: wanderlust.local
-
   path: /
-
   pathType: Prefix
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
