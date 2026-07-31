@@ -10,18 +10,18 @@ metadata:
     tier: backend
 
 data:
-  NODE_ENV: {{ .Values.backend.nodeEnv }}
+  NODE_ENV: "{{ .Values.backend.config.nodeEnv }}"
 
-  PORT: {{ .Values.backend.config.port }}
+  PORT: "{{ .Values.backend.config.port }}"
 
-  FRONTEND_URL: {{ .Values.backend.config.frontendUrl }}
+  FRONTEND_URL: "{{ .Values.backend.config.frontendUrl }}"
 
-  MONGO_HOST: {{ .Values.backend.config.mongoHost }}
+  MONGO_HOST: "{{ .Values.backend.config.mongoHost }}"
 
-  MONGO_PORT: {{ .Values.backend.config.mongoPort }}
+  MONGO_PORT: "{{ .Values.backend.config.mongoPort }}"
 
-  REDIS_HOST: {{ .Values.backend.config.redisHost }}
+  REDIS_HOST: "{{ .Values.backend.config.redisHost }}"
 
-  REDIS_PORT: {{ .Values.backend.config.redisPort }}
+  REDIS_PORT: "{{ .Values.backend.config.redisPort }}"
 
-  DATABASE_NAME: {{ .Values.backend.config.databaseName }}
+  DATABASE_NAME: "{{ .Values.backend.config.databaseName }}"

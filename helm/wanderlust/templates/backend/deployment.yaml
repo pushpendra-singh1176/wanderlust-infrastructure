@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: "{{ .Release.Name }}-backend"
+  name: {{ .Release.Name }}-backend
   namespace: {{ .Release.Namespace }}
 
   labels:
-    app: "{{ .Release.Name }}-backend"
+    app: {{ .Release.Name }}-backend
     tier: backend
 
 spec:
@@ -19,26 +19,25 @@ spec:
 
   selector:
     matchLabels:
-      app: "{{ .Release.Name }}-backend"
+      app: {{ .Release.Name }}-backend
 
   template:
 
     metadata:
       labels:
-        app: "{{ .Release.Name }}-backend"
+        app: {{ .Release.Name }}-backend
         tier: backend
 
     spec:
-      restartPolicy: Always
       containers:
-      - name: "{{ .Release.Name }}-backend"
+      - name: {{ .Release.Name }}-backend
         image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
         imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
         envFrom:
         - configMapRef:
-            name: {{ .Values.backend.configMapName }}
+            name: {{ .Release.Name }}-{{ .Values.backend.configMapName }}
         - secretRef:
-            name: {{ .Values.backend.secretName }}
+            name: {{ .Release.Name }}-{{ .Values.backend.secretName }}
         ports:
         - containerPort: {{ .Values.backend.containerPort }}
           protocol: TCP
@@ -55,7 +54,7 @@ spec:
           failureThreshold: {{ .Values.backend.livenessProbe.failureThreshold }}
         readinessProbe:
           httpGet:
-            path: {{ .Values.backend.livenessProbe.path }}
+            path: {{ .Values.backend.readinessProbe.path }}
             port: {{ .Values.backend.containerPort }}
           initialDelaySeconds: {{ .Values.backend.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.backend.readinessProbe.periodSeconds }}
