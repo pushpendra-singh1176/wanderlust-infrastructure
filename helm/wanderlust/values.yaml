@@ -93,13 +93,34 @@ frontend:
     periodSeconds: 5
 
 mongodb:
+  replicaCount: 1
+
   image:
     repository: mongo
-    tag: "6"
+    tag: "7"
+    pullPolicy: IfNotPresent
+
+  containerPort: 27017
+
+  database: wanderlust
 
   service:
+    name: mongodb-service
     port: 27017
+    clusterIP: None
 
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 5Gi
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
 redis:
   image:
     repository: redis

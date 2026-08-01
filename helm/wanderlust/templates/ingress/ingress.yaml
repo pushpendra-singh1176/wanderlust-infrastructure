@@ -23,7 +23,7 @@ spec:
 
             backend:
               service:
-                name: "{{ .Release.Name }}-frontend-service"
+                name: {{ .Release.Name }}-frontend
                 port:
                   number: {{ .Values.frontend.service.port }}
 
@@ -33,6 +33,6 @@ spec:
 
             backend:
               service:
-                name: "{{ .Release.Name }}-backend-service"
+                name: {{ .Release.Name }}-backend
                 port:
                   number: {{ .Values.backend.service.port }}
