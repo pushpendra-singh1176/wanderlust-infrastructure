@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: redis
+  name: {{ .Release.Name }}-redis
   namespace: wanderlust
 
   labels:
@@ -31,8 +31,12 @@ spec:
             - containerPort: {{ .Values.redis.containerPort }}
 
           resources:
-          {{- toYaml .Values.redis.resources | nindent 10 }}
-
+            requests:
+              cpu: {{ .Values.redis.resources.requests.cpu }}
+              memory: {{ .Values.redis.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.redis.resources.limits.cpu }}
+              memory: {{ .Values.redis.resources.limits.memory }}
           livenessProbe:
             tcpSocket:
               port: {{ .Values.redis.containerPort }}
