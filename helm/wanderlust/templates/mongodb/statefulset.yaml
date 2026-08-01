@@ -3,7 +3,7 @@ kind: StatefulSet
 
 metadata:
   name: mongodb
-  namespace: wanderlust
+  namespace: {{ .Release.Namespace }}
 
   labels:
     app: mongodb
@@ -12,7 +12,7 @@ metadata:
 spec:
   serviceName: mongodb-service
 
-  replicas: 1
+  replicas: {{ .Values.mongodb.replicaCount }}
 
   selector:
     matchLabels:
@@ -27,26 +27,21 @@ spec:
     spec:
       containers:
         - name: mongodb
-          image: mongo:7
+          image: {{ .Values.mongodb.image.repository }}:{{ .Values.mongodb.image.tag }}
+          imagePullPolicy: {{ .Values.mongodb.image.pullPolicy }}
           ports:
-            - containerPort: 27017
+            - containerPort: {{ .Values.mongodb.containerPort }}
 
           env:
             - name: MONGO_INITDB_DATABASE
-              value: wanderlust
+              value: {{ .Values.mongodb.database | quote }}
 
           volumeMounts:
             - name: mongodb-storage
               mountPath: /data/db
 
           resources:
-            requests:
-              cpu: "100m"
-              memory: "256Mi"
-
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
+          {{- toYaml .Values.mongodb.resources | nindent 12 }}
 
   volumeClaimTemplates:
     - metadata:
@@ -54,8 +49,8 @@ spec:
 
       spec:
         accessModes:
-          - ReadWriteOnce
+          - {{ .Values.mongodb.persistence.accessMode }}
 
         resources:
           requests:
-            storage: 5Gi
+            storage: {{ .Values.mongodb.persistence.size }}
