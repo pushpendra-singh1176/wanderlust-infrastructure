@@ -10,7 +10,7 @@ metadata:
     tier: cache
 
 spec:
-  replicas: 1
+  replicas: {{ .Values.redis.replicaCount }}
 
   selector:
     matchLabels:
@@ -25,27 +25,22 @@ spec:
     spec:
       containers:
         - name: redis
-          image: redis:7-alpine
+          image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
+          imagePullPolicy: {{ .Values.redis.image.pullPolicy }}
           ports:
-            - containerPort: 6379
+            - containerPort: {{ .Values.redis.containerPort }}
 
           resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-
-            limits:
-              cpu: "250m"
-              memory: "256Mi"
+          {{- toYaml .Values.redis.resources | nindent 10 }}
 
           livenessProbe:
             tcpSocket:
-              port: 6379
+              port: {{ .Values.redis.containerPort }}
             initialDelaySeconds: 15
             periodSeconds: 10
 
           readinessProbe:
             tcpSocket:
-              port: 6379
+              port: {{ .Values.redis.containerPort }}
             initialDelaySeconds: 5
             periodSeconds: 10
