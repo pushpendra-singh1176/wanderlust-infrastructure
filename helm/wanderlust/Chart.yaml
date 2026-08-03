@@ -6,9 +6,9 @@ description: Helm chart for deploying the Wanderlust application stack on Kubern
 
 type: application
 
-version: 0.1.0
+version: 0.1.16
 
-appVersion: "1.0.0"
+appVersion: "16"
 
 keywords:
   - wanderlust

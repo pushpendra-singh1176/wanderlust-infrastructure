@@ -5,7 +5,7 @@ backend:
 
   image:
     repository: xerox2/wanderlust-backend
-    tag: "15"
+    tag: "16"
     pullPolicy: Always
 
   containerPort: 5000
@@ -65,7 +65,7 @@ frontend:
 
   image:
     repository: xerox2/wanderlust-frontend
-    tag: "15"
+    tag: "16"
     pullPolicy: Always
 
   containerPort: 80
